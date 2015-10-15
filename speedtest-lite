@@ -39,7 +39,7 @@ warn_required_tool () {
 }
 
 # Check required tools
-$PROG_DATE +%s.%N | grep -v "%N" >/dev/null || warn_required_tool "date with nanoseconds support"
+#$PROG_DATE +%s.%N | grep -v "%N" >/dev/null || warn_required_tool "date with nanoseconds support"
 test -n "${PROG_CURL}" || warn_required_tool "curl"
 test -n "${PROG_NC}" || warn_required_tool "netcat (nc)"
 test -n "${PROG_PV}" || warn_required_tool "pipe viewer (pv)"
@@ -244,9 +244,9 @@ getLatency () {
   rm -f $latency
 
   for j in `seq 1 3`; do
-    start=$($PROG_DATE +%s.%N)
+    start=$($PROG_DATE +%s)
     reply=$($PROG_CURL $CURL_OPTS -s "$url?x=$start")
-    end=$($PROG_DATE +%s.%N)
+    end=$($PROG_DATE +%s)
 
     if [ "x$reply" = "xtest=test" ]; then
       echo "($end - $start) * 1000" | bc -l >> $latency
